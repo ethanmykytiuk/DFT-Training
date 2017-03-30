@@ -1,0 +1,7 @@
+WeeWikiPaint
+
+To build:
+- Install Node.js [v6.10.1]
+- Install git [v2.10.1]
+- Clone repository
+- Run 'jake'
