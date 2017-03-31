@@ -1,4 +1,5 @@
 "use strict";
+var PORT = "8080";
 
 var server = require("./server.js");
 var http = require("http");
@@ -12,7 +13,7 @@ exports.tearDown = function(done) {
 };
 
 exports.test_serverReturnsHelloWorld = function(test) {
-    server.start();
+    server.start(8080);
     var request = http.get(localHostUrl);
     request.on("response", function(response) {
         var receivedData = false;
