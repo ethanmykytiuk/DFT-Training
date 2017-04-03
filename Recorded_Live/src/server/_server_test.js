@@ -5,12 +5,18 @@ var server = require("./server.js");
 var http = require("http");
 var localHostUrl = "http://localhost:8080";
 
+/*
+exports.setUp = function(done) {
+    server.start(8080);
+    done();
+};
+
 exports.tearDown = function(done) {
     server.stop(function(){
         done();
-    });  
-    
+    });     
 };
+*/
 
 exports.test_serverReturnsHelloWorld = function(test) {
     server.start(8080);
@@ -25,15 +31,31 @@ exports.test_serverReturnsHelloWorld = function(test) {
             test.equals("Hello World!", chunk, "response text");
         });
         response.on("end", function(){
-            test.equals(receivedData, true, "should have received data here");
-            test.done(); 
+            test.ok(receivedData, true, "should have received data here");
+            server.stop(function(){
+                    test.done();
+            });
         });
     });
-
 };
-/*
-exports.testNothing = function(test) {
-    test.equals(3,server.number(), "Numbers are not equal!");
+
+exports.test_serverRequiresPortNumber = function(test) {
+    test.throws(function() {
+        server.start();
+    });
     test.done();
 };
-*/
+
+exports.test_serverRunsCallbackWhenStopCompletes = function(test) {
+    server.start(8080);
+    server.stop(function(){
+        test.done();
+    });
+};
+
+exports.test_serverRunsCalledWhenServerIsntRunningThrowsException = function(test) {
+    server.stop(function(err){
+       test.notEqual(err, undefined);
+        test.done();
+    });
+};
