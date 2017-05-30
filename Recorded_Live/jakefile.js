@@ -26,7 +26,7 @@ function nodeLintOptions() {
 	task("default", ["lint", "test"]);
 
 	desc("Lint everything");
-	task("lint", [], function() {
+	task("lint", ["node"], function() {
 		var lint = require("./build/lint/lint_runner.js");
 
 		var files = new jake.FileList();
@@ -41,7 +41,7 @@ function nodeLintOptions() {
 }());
 
 desc("Test everything");
-task("test", [], function() {
+task("test", ["node"], function() {
      var reporter = require("nodeunit").reporters["default"];
      reporter.run(['src/server/_server_test.js'], null, function(failures) {
          if(failures) fail("Tests failed");
@@ -61,7 +61,65 @@ task("integrate", ["default"],function() {
     console.log("5. 'git checkout master'");
 });
 
+function sh(command, callback) {
+ 		console.log("> " + command);
+ 
+ 		var stdout = "";
+ 		var process = jake.createExec(command, {printStdout:true, printStderr: true});
+ 		process.on("stdout", function(chunk) {
+ 			console.log("chunk = " + chunk);
+            stdout += chunk;
+ 		});
+ 		process.on("cmdEnd", function() {
+ 			console.log();
+ 			callback(stdout);
+ 		});
+ 		process.run();
+}
 
+ //	desc("Ensure correct version of Node is present");
+ 	task("node", [], function() {  
+ 		var NODE_VERSION = "v6.10.0";
+ 
+ 		sh("node --version", function(stdout) {
+ 			//if (stdout !== NODE_VERSION) fail("Incorrect node version. Expected " + NODE_VERSION);
+ 			complete();
+ 		});
+ 	}, {async: true});
+ 
+ 	function sh(command, callback) {
+ 		console.log("> " + command);
+ 
+ 		var stdout = "";
+ 		var process = jake.createExec(command, {printStdout:true, printStderr: true});
+ 		process.on("stdout", function(chunk) {
+ 			console.log("chunk = " + chunk);
+            stdout += chunk;
+ 		});
+ 		process.on("cmdEnd", function() {
+ 			console.log();
+ 			callback(stdout);
+ 		});
+ 		process.run();
+ 	}
+/*
+task("node", [], function(){
+    var desiredNodeVersion = "v6.10.0";
+    var command = "node --version";
+    var stdout = "";
+    var process = jake.createExec(command, {printStdout:true, printStderr:true});
+    process.on("stdout", function(chunk){
+       stdout += chunk; 
+    });
+    process.on("cmdEnd", function() {
+        if(stdout !== desiredNodeVersion) fail("Incorrect node version. Expected: " + desiredNodeVersion);
+        
+        console.log(stdout);
+        complete();
+    });
+    process.run();
+});
+*/
 /*       Older things left in for reference    */
 //Lesson One
 // Example on how to set up auto build with a dependency
