@@ -79,10 +79,12 @@ function sh(command, callback) {
 
  //	desc("Ensure correct version of Node is present");
  	task("node", [], function() {  
- 		var NODE_VERSION = "v6.10.0";
+ 		var NODE_VERSION = "v6.10.0\n";
  
  		sh("node --version", function(stdout) {
- 			//if (stdout !== NODE_VERSION) fail("Incorrect node version. Expected " + NODE_VERSION);
+            //console.log("abc "+stdout);
+            //console.log("def "+NODE_VERSION)
+            //if (stdout !== NODE_VERSION) fail("Incorrect node version. Expected " + NODE_VERSION);
  			complete();
  		});
  	}, {async: true});
@@ -91,9 +93,8 @@ function sh(command, callback) {
  		console.log("> " + command);
  
  		var stdout = "";
- 		var process = jake.createExec(command, {printStdout:true, printStderr: true});
+ 		var process = jake.createExec(command);
  		process.on("stdout", function(chunk) {
- 			console.log("chunk = " + chunk);
             stdout += chunk;
  		});
  		process.on("cmdEnd", function() {
