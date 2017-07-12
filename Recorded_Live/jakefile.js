@@ -1,5 +1,14 @@
-/*global desc, task, jake, fail, complete */
+/*global desc, task, jake, fail, complete, directory */
 "use strict";
+var GENERATED_DIR = "generated";
+var TEMP_TESTFILE_DIR = GENERATED_DIR + "/test";
+
+directory(TEMP_TESTFILE_DIR);
+
+desc("Delete all generated files");
+task("clean", [], function() {
+   jake.rmRf(GENERATED_DIR); 
+});
 
 function nodeLintOptions() {
     return {
@@ -41,7 +50,7 @@ function nodeLintOptions() {
 }());
 
 desc("Test everything");
-task("test", ["node"], function() {
+task("test", ["node", TEMP_TESTFILE_DIR], function() {
      var reporter = require("nodeunit").reporters["default"];
      reporter.run(['src/server/_server_test.js'], null, function(failures) {
          if(failures) fail("Tests failed");

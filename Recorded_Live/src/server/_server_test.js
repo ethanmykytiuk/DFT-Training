@@ -3,6 +3,7 @@ var PORT = "8080";
 
 var server = require("./server.js");
 var http = require("http");
+var fs = require("fs");
 var localHostUrl = "http://localhost:8080";
 
 /*
@@ -40,7 +41,16 @@ exports.test_serverReturnsHelloWorld = function(test) {
 };
 
 exports.test_serverServesAFile = function(test) {
-    test.done();
+    var testDir = "generated/test";
+    var testFile = testDir + "/test.html";
+    try{
+        fs.writeFileSync(testFile, "Hello World");   
+        test.done();
+    }
+    finally{
+        fs.unlinkSync(testFile);
+        test.ok(!fs.existsSync(testFile), "file should have been deleted");
+    }
 };
 
 exports.test_serverRequiresPortNumber = function(test) {
