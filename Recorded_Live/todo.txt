@@ -8,16 +8,13 @@ Minimum Marketing Feature:
     5. More collaborative features?
     
 User Stories:
-    - "hello world": server
-    - "hello world": client (one browser)
-    - support multiple browsers
-    - marketing copy
+    - Serve a one file home page
+    - Serve 404 errors
+    - Marketing copy
+    - Publish (Deploy)
     
 Engineering Tasks:
-    - continuous integration
-    - server-side testing
-    - client-side testing
-    - Build basic HTTP server
+    - Serve a file
     
 Future Ideas:
     - Abstract test frame
