@@ -1,6 +1,8 @@
 (function() {
-
     "use strict";
+    
+    /********** CONSTANTS ************/
+
     var PORT = "8080";
 
     var server = require("./server.js");
@@ -11,6 +13,7 @@
     var localHostUrl = "http://localhost:8080";
     var TEST_FILE = "generated/test/test.html";
 
+    /********** HELPER METHODS ************/
     function httpGet(url, callback){
         server.start(TEST_FILE, 8080);
         var request = http.get(url);
@@ -27,9 +30,10 @@
                 });
             });
         });
-    }
+    }   
     
-    
+    /********** TESTS ************/
+
     exports.tearDown = function(done) {
         if (fs.existsSync(TEST_FILE)) {
             fs.unlinkSync(TEST_FILE);
@@ -38,31 +42,29 @@
         done();
     };
 
-    exports.test_serverServesHomePageFromFile = function(test) {
+    exports.test_servesHomePageFromFile = function(test) {
         var testDir = "generated/test";
-        var testData = "This is served from a file";
+        var expectedData = "This is served from a file";
 
-        fs.writeFileSync(TEST_FILE, testData);
+        fs.writeFileSync(TEST_FILE, expectedData);
             
         httpGet("http://localhost:8080", function(response, responseData){
             test.equals(200, response.statusCode, "status code");                
-            test.equals(testData, responseData, "response text");
+            test.equals(expectedData, responseData, "response text");
             test.done();
         });        
     };
 
-    exports.test_serverReturns404ForEverythingExceptHomePage = function(test) {
+    exports.test_returns404ForEverythingExceptHomePage = function(test) {
         httpGet("http://localhost:8080/bargle", function(response, responseData){
             test.equals(404, response.statusCode, "status code");
             test.done();
         });
     };
 
-    exports.test_serverReturnsHomePageWhenASkedForIndex = function(test) {
+    exports.test_returnsHomePageWhenAskedForIndex = function(test) {
         var testDir = "generated/test";
-        var testData = "This is served from a file";
-
-        fs.writeFileSync(TEST_FILE, testData);
+        fs.writeFileSync(TEST_FILE, "foo");
             
         httpGet("http://localhost:8080/index.html", function(response, responseData){
             test.equals(200, response.statusCode, "status code");                
@@ -70,28 +72,28 @@
         });     
     };
     
-    exports.test_serverRequiresFileToServe = function(test) {
+    exports.test_requiresFileToServe = function(test) {
         test.throws(function() {
             server.start();
         });
         test.done();
     };
 
-    exports.test_serverRequiresPortNumber = function(test) {
+    exports.test_requiresPortNumber = function(test) {
         test.throws(function() {
             server.start();
         });
         test.done();
     };
 
-    exports.test_serverRunsCallbackWhenStopCompletes = function(test) {
+    exports.test_runsCallbackWhenStopCompletes = function(test) {
         server.start(TEST_FILE, 8080);
         server.stop(function(){
             test.done();
         });
     };
 
-    exports.test_serverRunsCalledWhenServerIsntRunningThrowsException = function(test) {
+    exports.test_runsCalledWhenServerIsntRunningThrowsException = function(test) {
         server.stop(function(err){
            test.notEqual(err, undefined);
             test.done();
