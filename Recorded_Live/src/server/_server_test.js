@@ -1,75 +1,104 @@
-"use strict";
-var PORT = "8080";
+(function() {
 
-var server = require("./server.js");
-var http = require("http");
-var fs = require("fs");
-var assert = require("assert");
+    "use strict";
+    var PORT = "8080";
 
-var localHostUrl = "http://localhost:8080";
-var TEST_FILE = "generated/test/test.html";
+    var server = require("./server.js");
+    var http = require("http");
+    var fs = require("fs");
+    var assert = require("assert");
 
-exports.tearDown = function(done) {
-	if (fs.existsSync(TEST_FILE)) {
-		fs.unlinkSync(TEST_FILE);
-		assert.ok(!fs.existsSync(TEST_FILE), "could not deleted test file: [" + TEST_FILE + "]");
-	}
-	done();
-};
+    var localHostUrl = "http://localhost:8080";
+    var TEST_FILE = "generated/test/test.html";
 
-exports.test_serverServesAFile = function(test) {
-	var testDir = "generated/test";
-	var testData = "This is served from a file";
+    function httpGet(url, callback){
+        server.start(TEST_FILE, 8080);
+        var request = http.get(url);
+        request.on("response", function(response) {
+            var receivedData = "";
+            response.setEncoding("utf8");
 
-	fs.writeFileSync(TEST_FILE, testData);
-	server.start(TEST_FILE, 8080);
-	var request = http.get("http://localhost:8080");
-	request.on("response", function(response) {
-		var receivedData = false;
-		response.setEncoding("utf8");
+            response.on("data", function(chunk) {
+                receivedData += chunk;
+            });
+            response.on("end", function() {
+                server.stop(function() {
+                    callback(response, receivedData);
+                });
+            });
+        });
+    }
+    
+    
+    exports.tearDown = function(done) {
+        if (fs.existsSync(TEST_FILE)) {
+            fs.unlinkSync(TEST_FILE);
+            assert.ok(!fs.existsSync(TEST_FILE), "could not deleted test file: [" + TEST_FILE + "]");
+        }
+        done();
+    };
 
-		test.equals(200, response.statusCode, "status code");
-		response.on("data", function(chunk) {
-			receivedData = true;
-			test.equals(testData, chunk, "response text");
-		});
-		response.on("end", function() {
-			test.ok(receivedData, "should have received response data");
-			server.stop(function() {
-				test.done();
-			});
-		});
-	});
-};
+    exports.test_serverServesHomePageFromFile = function(test) {
+        var testDir = "generated/test";
+        var testData = "This is served from a file";
 
-exports.test_serverRequiresFileToServe = function(test) {
-	test.throws(function() {
-		server.start();
-	});
-	test.done();
-};
+        fs.writeFileSync(TEST_FILE, testData);
+            
+        httpGet("http://localhost:8080", function(response, responseData){
+            test.equals(200, response.statusCode, "status code");                
+            test.equals(testData, responseData, "response text");
+            test.done();
+        });        
+    };
 
-exports.test_serverRequiresPortNumber = function(test) {
-    test.throws(function() {
-        server.start();
-    });
-    test.done();
-};
+    exports.test_serverReturns404ForEverythingExceptHomePage = function(test) {
+        httpGet("http://localhost:8080/bargle", function(response, responseData){
+            test.equals(404, response.statusCode, "status code");
+            test.done();
+        });
+    };
 
-exports.test_serverRunsCallbackWhenStopCompletes = function(test) {
-    server.start(TEST_FILE, 8080);
-    server.stop(function(){
+    exports.test_serverReturnsHomePageWhenASkedForIndex = function(test) {
+        var testDir = "generated/test";
+        var testData = "This is served from a file";
+
+        fs.writeFileSync(TEST_FILE, testData);
+            
+        httpGet("http://localhost:8080/index.html", function(response, responseData){
+            test.equals(200, response.statusCode, "status code");                
+            test.done();
+        });     
+    };
+    
+    exports.test_serverRequiresFileToServe = function(test) {
+        test.throws(function() {
+            server.start();
+        });
         test.done();
-    });
-};
+    };
 
-exports.test_serverRunsCalledWhenServerIsntRunningThrowsException = function(test) {
-    server.stop(function(err){
-       test.notEqual(err, undefined);
+    exports.test_serverRequiresPortNumber = function(test) {
+        test.throws(function() {
+            server.start();
+        });
         test.done();
-    });
-};
+    };
 
+    exports.test_serverRunsCallbackWhenStopCompletes = function(test) {
+        server.start(TEST_FILE, 8080);
+        server.stop(function(){
+            test.done();
+        });
+    };
+
+    exports.test_serverRunsCalledWhenServerIsntRunningThrowsException = function(test) {
+        server.stop(function(err){
+           test.notEqual(err, undefined);
+            test.done();
+        });
+    };
+
+}());
 
 /*
 exports.setUp = function(done) {

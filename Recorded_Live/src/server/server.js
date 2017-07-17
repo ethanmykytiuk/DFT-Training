@@ -9,11 +9,19 @@ exports.start = function(htmlFileToServe, portNumber) {
         throw new Error("Port number is required");
     server = http.createServer();
     server.on("request", function(request, response) {
-        fs.readFile(htmlFileToServe, function(err, data)
-        {
-            if(err) throw err;
-            response.end(data);
-        });
+        
+        if(request.url === "/" || request.url === "/index.html") {
+            fs.readFile(htmlFileToServe, function(err, data)
+            {
+                if(err) throw err;
+                response.end(data);
+            });
+        }
+        else {
+             response.statusCode = 404;   
+            response.end();
+        }
+        
     });
     server.listen(portNumber);
 };
