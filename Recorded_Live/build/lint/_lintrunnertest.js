@@ -1,12 +1,12 @@
 /* Copyright (c) 2012 James Shore - See README.txt for license */
 "use strict";
 
-var expect = require("expect.js");
+require("expect.js");
 var assert = require("assert");
 var fs = require("fs");
 var path = require("path");
 
-var lint = require("../lib/lint_runner.js");
+var lint = require("lint_runner.js");
 var testDir = "build/temp_files/";
 
 // console inspection code inspired by http://userinexperience.com/?p=714

@@ -1,20 +1,27 @@
 WeeWikiPaint
 
-Minimum Marketing Feature:
-    1. Marketing home page
-    2. Collaborative painting page (basic)
-    3. Wiki-fy the pages
-    4. More complex painting?
-    5. More collaborative features?
-    
+Minimum Marketable Features:
+* marketing home page
+- collaborative painting page (very basic)
+- wiki-fy the pages
+- more complex painting?
+- more collaborative features?
+
 User Stories:
-    - Serve a one file home page
-    - Serve 404 errors
-    - Marketing copy
-    - Publish (Deploy)
-    
+- Marketing copy
+* Publish to Internet
+
 Engineering Tasks:
-    - Serve a file
-    
-Future Ideas:
-    - Abstract test frame
+- Write end-to-end integration test
+- Write server launch code
+
+To Do on current task:
+
+Future ideas:
+- Create 'fail fast' assertion code
+- Abstract test framework? (Swap out a different framework to make sure abstraction works)
+- Static checking of function parameters (rather than writing tests)
+- Handle errors properly in server.js
+
+Notes:
+- NodeUnit default reporter has minor display issue on Windows
