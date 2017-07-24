@@ -17,7 +17,7 @@
     }
 
     /******** MAIN METHODS ***********/
-    exports.start = function(homePageToServe, notFoundPageToServe, portNumber) {
+    exports.start = function(homePageToServe, notFoundPageToServe, portNumber, callback) {
         if (!portNumber)
             throw new Error("Port number is required");
         server = http.createServer();
@@ -33,7 +33,7 @@
             }
 
         });
-        server.listen(portNumber);
+        server.listen(portNumber, callback);
     };
 
     exports.stop = function(callback) {

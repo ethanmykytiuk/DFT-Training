@@ -1,6 +1,10 @@
 (function() { 
     "use strict";
+    var HOME_PAGE = "src/server/homepage.html";
+    var ERROR_PAGE = "src/server/404.html";
     
     var server = require("./server.js");
-    server.start("homepage.html", "404.html", 8080);
+    server.start(HOME_PAGE, ERROR_PAGE, 8080, function(){
+        console.log("Server started");        
+    });
 }());
