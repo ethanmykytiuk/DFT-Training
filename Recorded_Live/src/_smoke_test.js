@@ -54,13 +54,20 @@
     };
     
 	exports.test_canGetHomePage = function(test) {
-        httpGet("http://localhost:8080", function(response, receivedData) {
-            var foundHomePage = receivedData.indexOf("WeeWikiPaint home page") !== -1;
+        httpGet("http://localhost:8080/abcd.html", function(response, receivedData) {
+            var foundHomePage = receivedData.indexOf("WeeWikiPaint 404 page") !== -1;
             test.ok(foundHomePage, "home page should have contained WeeWikiPaint marker");
             test.done();
         });
 	};
     
+    exports.test_canGet404Page = function(test) {
+        httpGet("http://localhost:8080", function(response, receivedData) {
+            var foundHomePage = receivedData.indexOf("404 page") !== -1;
+            test.ok(foundHomePage, "404 page should have contained");
+            test.done();
+        });
+	};
     
     
     
