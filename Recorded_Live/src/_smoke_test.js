@@ -31,7 +31,7 @@
    
     
 	function runServer(callback) {
-		child = child_process.spawn("node", ["src/server/weewikipaint", "8080"]);
+		child = child_process.spawn("foreman", ["start"]);
 		child.stdout.setEncoding("utf8");
 		child.stdout.on("data", function(chunk) {
 			process.stdout.write("server stdout: " + chunk);
@@ -54,7 +54,7 @@
     };
     
 	exports.test_canGetHomePage = function(test) {
-        httpGet("http://localhost:8080", function(response, receivedData) {
+        httpGet("http://localhost:5000", function(response, receivedData) {
             var foundHomePage = receivedData.indexOf("WeeWikiPaint home page") !== -1;
             test.ok(foundHomePage, "Home page should have contained WeeWikiPaint marker");
             test.done();
@@ -62,7 +62,7 @@
 	};
     
     exports.test_canGet404Page = function(test) {
-        httpGet("http://localhost:8080/abcd.html", function(response, receivedData) {
+        httpGet("http://localhost:5000/abcd.html", function(response, receivedData) {
             var found404Page = receivedData.indexOf("WeeWikiPaint 404 page") !== -1;
             test.ok(found404Page, "404 page should have contained WeeWikiPaint marker");
             test.done();
