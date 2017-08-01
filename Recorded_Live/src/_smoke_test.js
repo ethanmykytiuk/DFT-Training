@@ -2,10 +2,13 @@
 // get a page
 // confirm we got something
 
+/*jshint regexp:false*/
+
 (function() {
     "use strict";
     var http = require("http");
 	var child_process = require("child_process");
+    var fs = require("fs");
     var child;
     
     var TEST_HOME_PAGE = "generated/test/testHome.html";
@@ -29,16 +32,37 @@
         });
     }   
    
+    function parseProcFile(){
+        var procFile = fs.readFileSync("Procfile", "utf8");
+		var matches = procFile.trim().match(/^web:(.*)$/);     // matches 'web: foo bar baz'
+
+        if (matches === null) 
+            throw "Could not parse Procfile";
+		var commandLine = matches[1];
+
+		var args = commandLine.split(" ");
+
+        args = args.filter(function(element) {
+			return (element.trim() !== "");
+		});
+		args = args.map(function(element) {
+			if (element === "$PORT") return "5000";
+			else return element;
+		});
+
+		return args;
+    }
     
 	function runServer(callback) {
-		child = child_process.spawn("foreman", ["start"]);
+        var commandLine = parseProcFile();
+        
+		child = child_process.spawn(commandLine[0], commandLine.splice(1));
+        
 		child.stdout.setEncoding("utf8");
 		child.stdout.on("data", function(chunk) {
-			process.stdout.write("server stdout: " + chunk);
-			if (chunk.trim() === "Server started") callback();
+			if (chunk.trim().indexOf("Server started") !== -1) callback();
 		});
-	}
-    
+	}    
     
     /******** TESTS ********/
 
