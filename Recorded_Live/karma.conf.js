@@ -1,6 +1,6 @@
 // Karma configuration
-// Generated on Wed Aug 16 2017 11:47:17 GMT-0600 (Mountain Daylight Time)
-
+// Generated on Wed Aug 16 2017 15:14:16 GMT-0600 (Mountain Daylight Time)
+"use strict";
 module.exports = function(config) {
   config.set({
 
@@ -10,11 +10,14 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', "src/client/_*_test,js"],
-
+    frameworks: [
+        'mocha',
+        'expect'
+    ],
 
     // list of files / patterns to load in the browser
     files: [
+        'src/client/_*_test.js'
     ],
 
 
@@ -64,5 +67,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};

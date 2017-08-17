@@ -55,8 +55,7 @@
         var testFiles = new jake.FileList();
         testFiles.include("**/_*_test.js");
         testFiles.exclude("node_modules"); 
-        testFiles.exclude("/src/client**"); 
-        
+		testFiles.exclude("src/client/**");
 
         reporter.run(testFiles.toArray(), null, function(failures) {
              if(failures) fail("Tests failed");
