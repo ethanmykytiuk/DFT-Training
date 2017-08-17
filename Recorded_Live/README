@@ -8,3 +8,8 @@ To build:
 
 Shortcuts for Brackets:
 https://github.com/adobe/brackets/wiki/Brackets-Shortcuts
+
+For Karma to run:
+    - In one cmd window, run 'karma start'
+    - Open in a browser (localhost:8080)
+    - In another cmd window, run: karma run
