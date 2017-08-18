@@ -43,6 +43,7 @@
             javascriptFiles.exclude("node_modules");
             javascriptFiles.exclude("build");
             javascriptFiles.exclude("spikes");
+            javascriptFiles.exclude("karma.conf.js");            
             var options = nodeLintOptions();
             var passed = lint.validateFileList(javascriptFiles.toArray(), options, {});
             if(!passed)  fail("Lint failed");
@@ -50,18 +51,26 @@
     }());
 
     desc("Test everything");
-    task("test", ["node", TEMP_TESTFILE_DIR], function() {
+	task("test", ["testServer", "testClient"]);
+
+    desc("Test server");
+    task("testServer", ["node", TEMP_TESTFILE_DIR], function() {
         var reporter = require("nodeunit").reporters["default"];
         var testFiles = new jake.FileList();
         testFiles.include("**/_*_test.js");
         testFiles.exclude("node_modules"); 
-		testFiles.exclude("src/client/**");
+		testFiles.exclude("./src/client/**");
 
         reporter.run(testFiles.toArray(), null, function(failures) {
              if(failures) fail("Tests failed");
              complete();
         });
     }, {async: true});
+
+	desc("Test client code");
+	task("testClient", function() {
+		console.log("CLIENT CODE HERE!");
+	});
 
 	desc("Deploy to Heroku");
 	task("deploy", ["default"], function() {

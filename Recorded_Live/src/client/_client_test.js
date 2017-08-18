@@ -1,10 +1,18 @@
+/*global describe, it, expect*/
+
 // Expect = assertion library
 // Mocha = test framework
 
-describe("Nothing", function() {
+(function() {
 
-	it("should run", function() {
-        expect("foo").to.equal("foo");
-	});
+    "use strict";
+    
+    describe("Nothing", function() {
 
-});
+        it("should run", function() {
+            expect("foo").to.equal("foo");
+        });
+
+    });
+    
+}());
