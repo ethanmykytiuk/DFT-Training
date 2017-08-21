@@ -67,10 +67,26 @@
         });
     }, {async: true});
 
-	desc("Test client code");
-	task("testClient", function() {
+
+    desc("Start the Karma server");
+    task("karma", function(){
+        
+    });
+
+    desc("Test client code");
+	task("testClient2", function() {
 		console.log("CLIENT CODE HERE!");
+        var runner = require('karma').runner;
+        runner.run({port: 8080});
 	});
+
+    
+    desc("Test client code");
+	task("testClient", function() {
+		sh("node node_modules\\.bin\\karma run", "Client tests failed", complete);
+	}, {async: true});
+
+
 
 	desc("Deploy to Heroku");
 	task("deploy", ["default"], function() {
