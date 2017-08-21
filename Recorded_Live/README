@@ -4,12 +4,14 @@ To build:
 - Install Node.js [v8.3.0]
 - Install git [v2.10.1]
 - Clone repository
+- Run client tests (see below)
 - Run 'jake'
 
-Shortcuts for Brackets:
-https://github.com/adobe/brackets/wiki/Brackets-Shortcuts
 
-For Karma to run:
+To run client tests:
     - In one cmd window, run 'karma start'
     - Open in a browser (localhost:8080)
     - In another cmd window, run: karma run
+
+Shortcuts for Brackets:
+https://github.com/adobe/brackets/wiki/Brackets-Shortcuts

@@ -1,7 +1,10 @@
 /*global desc, task, jake, fail, complete, directory */
     "use strict";
+
     var GENERATED_DIR = "generated";
     var TEMP_TESTFILE_DIR = GENERATED_DIR + "/test";
+    var KARMA_PORT = 8080;
+    var KARMA_CONFIG = "karma.conf.js";
 
     directory(TEMP_TESTFILE_DIR);
 
@@ -67,26 +70,17 @@
         });
     }, {async: true});
 
-
-    desc("Start the Karma server");
-    task("karma", function(){
-        
-    });
-
-    desc("Test client code");
-	task("testClient2", function() {
-		console.log("CLIENT CODE HERE!");
-        var runner = require('karma').runner;
-        runner.run({port: 8080});
-	});
-
-    
     desc("Test client code");
 	task("testClient", function() {
-		sh("node node_modules\\.bin\\karma run", "Client tests failed", complete);
-	}, {async: true});
+        var runner = require('karma').runner;
+		runner.run({
+			port: KARMA_PORT,
+			strict: !process.env.loose
+		}, complete, fail);
+	}, { async: true });
 
 
+    /** Tasks **/
 
 	desc("Deploy to Heroku");
 	task("deploy", ["default"], function() {
