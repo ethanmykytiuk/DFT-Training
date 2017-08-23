@@ -1,1 +1,1 @@
-node_modules\.bin\karma.cmd %*
+node_modules\.bin\karma.cmd %* ./build/karma.conf.js
