@@ -98,7 +98,9 @@
     /***** MAIN TESTS ******/   
     
     desc("Build and Test");
-    task("default", ["lint", "test"]);
+    task("default", ["lint", "test"], function(){
+        console.log("\n\n ALL PASSED");
+    });
 
     desc("Lint everything");
     task("lint", ["lintNode", "lintClient"]);
