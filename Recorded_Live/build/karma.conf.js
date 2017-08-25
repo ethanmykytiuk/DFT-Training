@@ -6,19 +6,18 @@ module.exports = function(config) {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '..',
-
-
+      
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: [
         'mocha',
-        'expect'
+        'expect',
+        'jquery-1.8.3'
     ],
 
     // list of files / patterns to load in the browser
     files: [
-        'src/client/*.js',
-        'vendor_client/jquery-3.2.1.min.js'
+        'src/client/*.js'
     ],
 
 

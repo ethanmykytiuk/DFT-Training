@@ -73,7 +73,6 @@
     function clientFiles(){
         var javascriptFiles = new jake.FileList();
         javascriptFiles.include("src/client/*.js");
-        //javascriptFiles.exclude("./vendor_client/*.js");
         return javascriptFiles.toArray();
     }
     
