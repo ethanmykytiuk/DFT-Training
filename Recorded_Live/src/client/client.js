@@ -13,5 +13,9 @@ wwp = {};
 
 		dump("Window loaded");    
     };
+    
+    wwp.initializeDrawingArea = function(){
+        
+    };
 	
 }());

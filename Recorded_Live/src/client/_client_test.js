@@ -7,14 +7,20 @@
 
     "use strict";
     
-    describe("Nothing", function() {
+    describe("Drawing area", function() {
 
-        it("should run", function() {
+        it("should be initialized in predefined div", function() {
+            // create div (assumed to be on homepage)
+            var div = document.createElement("div");
+            div.setAttribute("id", "wwp-drawingArea");
+            document.body.appendChild(div);
             
-            wwp.createElement();
+            //initialize
+            wwp.initializeDrawingArea();
             
-            var extractedDiv = document.getElementById("tdjs");
-            expect(extractedDiv.getAttribute("foo")).to.equal("bar");
+            //verify it's been created
+            var extractedDiv = document.getElementById("wwp-drawingArea");
+            expect(extractedDiv).to.be.ok();
         });
 
     });
