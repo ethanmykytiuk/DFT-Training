@@ -1,4 +1,4 @@
-/*global describe, it, expect*/
+/*global describe, it, expect, dump*/
 
 // Expect = assertion library
 // Mocha = test framework
@@ -9,8 +9,15 @@
     
     describe("Nothing", function() {
 
-        it("should run", function() {
-            expect("foo").to.equal("foo");
+        it("should run", function() {            
+            var div = document.createElement("div");
+            div.setAttribute("id", "tdjs");
+            div.setAttribute("foo", "bar");
+            document.body.appendChild(div);            
+            
+            var extractedDiv = document.getElementById("tdjs");
+            expect(extractedDiv.getAttribute("foo")).to.equal("bar");
+        
         });
 
     });
