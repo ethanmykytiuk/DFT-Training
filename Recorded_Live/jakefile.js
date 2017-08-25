@@ -66,7 +66,6 @@
         javascriptFiles.exclude("spikes");
         javascriptFiles.exclude("karma.conf.js"); 
         javascriptFiles.exclude("src/client"); 
-        javascriptFiles.exclude("./vendor_client/*.js");
         return javascriptFiles.toArray();
     }
             

@@ -1,4 +1,4 @@
-/*global dump, jQuery*/
+/*global dump, wwp:true*/
 
 wwp = {};
 
