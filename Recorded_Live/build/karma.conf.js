@@ -18,7 +18,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
         'src/client/*.js',
-        'vendor_client/raphael-2.1.0.js'
+        'vendor_client/raphael-2.2.1.js'
     ],
 
 

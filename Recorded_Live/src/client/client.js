@@ -1,9 +1,11 @@
-/*global dump, wwp:true*/
+/*global dump, Raphael, wwp:true*/
 
 wwp = {};
 
 (function() {
 	"use strict";
+    
+    //var raphael = Raphael;
 
     wwp.createElement = function(){
 		var div = document.createElement("div");
@@ -14,8 +16,8 @@ wwp = {};
 		dump("Window loaded");    
     };
     
-    wwp.initializeDrawingArea = function(){
-        
+    wwp.initializeDrawingArea = function(drawingAreaId){
+        var paper = new Raphael(drawingAreaId);
     };
 	
 }());

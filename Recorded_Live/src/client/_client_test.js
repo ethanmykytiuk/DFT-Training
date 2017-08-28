@@ -1,4 +1,4 @@
-/*global describe, it, expect, dump, wwp*/
+/*global describe, it, expect, dump, $, wwp*/
 
 // Expect = assertion library
 // Mocha = test framework
@@ -15,12 +15,13 @@
             div.setAttribute("id", "wwp-drawingArea");
             document.body.appendChild(div);
             
-            //initialize
-            wwp.initializeDrawingArea();
+            //initialize it
+            wwp.initializeDrawingArea("wwp-drawingArea");
             
-            //verify it's been created
-            var extractedDiv = document.getElementById("wwp-drawingArea");
-            expect(extractedDiv).to.be.ok();
+            //verify it was initialized properly
+            var tagName = $(div).children()[0].tagName;
+            expect(tagName).to.equal("svg");
+            dump($(div).children()[0].tagName);
         });
 
     });
