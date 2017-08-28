@@ -35,4 +35,9 @@
 
     });
     
+    desc("Dimension test")
+    if("should have the same dimensions as its enclosing div", function(){
+        //TODO
+    });
+    
 }());
