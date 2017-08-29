@@ -1,4 +1,4 @@
-/*global describe, it, expect, dump, $, wwp, afterEach*/
+/*global describe, it, expect, dump, $, wwp, afterEach, Raphael*/
 
 // Expect = assertion library
 // Mocha = test framework
@@ -20,19 +20,17 @@
             $(document.body).append(drawingDiv);
             
             wwp.initializeDrawingArea(drawingDiv[0]);
-            
-            //verify it was initialized properly
             var tagName = $(drawingDiv).children()[0].tagName.toLowerCase();
-                        
-            if(tagName === "svg"){
-                // In browser that supports SVG
+
+            if(Raphael.type === "SVG") {
                 expect(tagName).to.equal("svg");        
             }
-            else
-            {
-                // In browser that doesn't support SVG (IE 8)
+            else if(Raphael.type === "VML") {
                 expect(tagName).to.equal("div");  
+            } else {
+                expect().fail("Browser does not support Raphael");
             }
+             
         });
 
         
