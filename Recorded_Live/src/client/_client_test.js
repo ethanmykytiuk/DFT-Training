@@ -22,6 +22,7 @@
             drawingArea.remove();
         });
 
+        // no longer needed?
 		function svgPathFor(element) {
 			var path = element.node.attributes.d.value;
 			if (path.indexOf(",") !== -1) {
@@ -37,7 +38,8 @@
 			}
 			return path;
 		}
-
+        
+        // no longer needed?
 		function vmlPathFor(element) {
 			// We're in IE 8, which uses format: m432000,648000 l648000,67456800 e
 			var VML_MAGIC_NUMBER = 21600;
@@ -56,9 +58,14 @@
 		}
     
         function pathFor(element) {
-			if (Raphael.vml) return vmlPathFor(element);
-			else if (Raphael.svg) return svgPathFor(element);
-			else throw new Error("Unknown Raphael type");
+			
+            var box = element.getBBox();
+            return "M" + box.x + "," + box.y + "L" + box.x2 + "," + box.y2;
+            
+            // not needed because of elements BBox (bounding box)
+            //if (Raphael.vml) return vmlPathFor(element);
+			//else if (Raphael.svg) return svgPathFor(element);
+			//else throw new Error("Unknown Raphael type");
 		}
         
         function drawingElements(paper){
