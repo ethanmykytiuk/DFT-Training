@@ -11,13 +11,7 @@
     var paper;
     
     describe("Drawing area", function() {
-
-        beforeEach(function(){
-            drawingArea = $("<div style='height:200px; width: 400px;'></div>");
-            $(document.body).append(drawingArea);
-            paper = wwp.initializeDrawingArea(drawingArea[0]);
-        });
-        
+    
         afterEach(function() {
             drawingArea.remove();
         });
@@ -77,18 +71,54 @@
         }
 
         it("should have the same dimensions as its enclosing div", function(){        
+            drawingArea = $("<div style='height:200px; width: 400px;'></div>");
+            $(document.body).append(drawingArea);
+            paper = wwp.initializeDrawingArea(drawingArea[0]);
+            
             expect(paper.height).to.equal(200);
             expect(paper.width).to.equal(400);
         });
         
         it("should draw a line", function(){
+            drawingArea = $("<div style='height:200px; width: 400px;'></div>");
+            $(document.body).append(drawingArea);
+            paper = wwp.initializeDrawingArea(drawingArea[0]);
+            
             wwp.drawLine(20,30,30,300);
             var elements = drawingElements(paper);
             expect(elements.length).to.equal(1);
 			expect(pathFor(elements[0])).to.equal("M20,30L30,300");
         });
         
+		it("considers border when calculating mouse target", function() {
+			drawingArea = $("<div style='height: 200px; width: 400px; border-width: 13px'></div>");
+			$(document.body).append(drawingArea);
+			paper = wwp.initializeDrawingArea(drawingArea[0]);
+
+			var eventData = new jQuery.Event();
+			eventData.pageX = 20;
+			eventData.pageY = 30;
+			eventData.type = "click";
+
+			drawingArea.trigger(eventData);
+
+			var topLeftOfDrawingArea = drawingArea.offset();
+			var borderWidth = 13;
+			var expectedX = 20 - topLeftOfDrawingArea.left - borderWidth;
+			var expectedY = 30 - topLeftOfDrawingArea.top - borderWidth;
+
+//			var elements = drawingElements(paper);
+//			expect(elements.length).to.equal(1);
+//			expect(pathFor(elements[0])).to.equal("M0,0L" + expectedX + "," + expectedY);
+		});
+        
+        //TODO: test that em is converted to px
+        
         it("respond to the mouse", function(){
+            drawingArea = $("<div style='height:200px; width: 400px;'></div>");
+            $(document.body).append(drawingArea);
+            paper = wwp.initializeDrawingArea(drawingArea[0]);
+            
             // click inside drawing area
             // verify a line was drawn from 0,0 to click location
             var eventData = new jQuery.Event();
