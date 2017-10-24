@@ -1,4 +1,4 @@
-/*global describe, it, expect, dump, $, wwp, afterEach, beforeEach, Raphael*/
+/*global describe, jQuery, it, expect, dump, $, wwp, afterEach, beforeEach, Raphael*/
 
 // Expect = assertion library
 // Mocha = test framework
@@ -88,7 +88,19 @@
 			expect(pathFor(elements[0])).to.equal("M20,30L30,300");
         });
         
-        
+        it("respond to the mouse", function(){
+            // click inside drawing area
+            // verify a line was drawn from 0,0 to click location
+            var eventData = new jQuery.Event();
+            eventData.pageX = 20;
+            eventData.pageY = 30;
+            eventData.type = "click";
+            drawingArea.trigger(eventData);
+            
+            var elements = drawingElements(paper);
+            expect(elements.length).to.equal(1);
+			expect(pathFor(elements[0])).to.equal("M0,0L20,30");
+        });
         
         
     });
