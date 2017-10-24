@@ -25,13 +25,11 @@
 		function svgPathFor(element) {
 			var path = element.node.attributes.d.value;
 			if (path.indexOf(",") !== -1) {
-				// We're in Firefox, Safari, Chrome, which uses format
-				// M20,30L30,300
+				// We're in Firefox, Safari, Chrome, which uses format: M20,30L30,300
 				return path;
 			}
 			else {
-				// We're in IE9, which uses format
-				// M 20 30 L 30 300
+				// We're in IE9, which uses format: M 20 30 L 30 300
 				var ie9PathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
 				var ie9 = path.match(ie9PathRegex);
 
@@ -41,8 +39,7 @@
 		}
 
 		function vmlPathFor(element) {
-			// We're in IE 8, which uses format
-			// m432000,648000 l648000,67456800 e
+			// We're in IE 8, which uses format: m432000,648000 l648000,67456800 e
 			var VML_MAGIC_NUMBER = 21600;
 
 			var path = element.node.path.value;
