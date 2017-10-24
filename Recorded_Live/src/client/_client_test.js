@@ -97,9 +97,14 @@
             eventData.type = "click";
             drawingArea.trigger(eventData);
             
+            var topLeftDrawingArea = drawingArea.offset();
+            var expectedX = 20 - topLeftDrawingArea.left;
+            var expectedY = 30 - topLeftDrawingArea.top;
+            
             var elements = drawingElements(paper);
             expect(elements.length).to.equal(1);
-			expect(pathFor(elements[0])).to.equal("M0,0L20,30");
+            
+			expect(pathFor(elements[0])).to.equal("M0,0L" + expectedX + "," + expectedY);
         });
         
         
