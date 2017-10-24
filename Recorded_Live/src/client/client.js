@@ -8,6 +8,8 @@ wwp = {};
     var paper;
     
     wwp.initializeDrawingArea = function(drawingAreaElement){
+        paper = new Raphael(drawingAreaElement);
+        /*
         var prevX = null;
         var prevY = null;
         
@@ -24,7 +26,6 @@ wwp = {};
            isDragging = false; 
         });
         
-        paper = new Raphael(drawingAreaElement);
         $(drawingAreaElement).mousemove(function(event){
             
             var divPageX = jqArea.offset().left;
@@ -36,6 +37,7 @@ wwp = {};
             prevX = relativeX;
             prevY = relativeY;
         });
+        */
         
         return paper;
     };

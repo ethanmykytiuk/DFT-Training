@@ -1,4 +1,4 @@
-/*global describe, it, expect, dump, $, wwp, afterEach, Raphael*/
+/*global describe, it, expect, dump, $, wwp, afterEach, beforeEach, Raphael*/
 
 // Expect = assertion library
 // Mocha = test framework
@@ -7,12 +7,19 @@
 
     "use strict";
     
-    var drawingDiv;
+    var drawingArea;
+    var paper;
     
     describe("Drawing area", function() {
 
+        beforeEach(function(){
+            drawingArea = $("<div style='height:200px; width: 400px;'></div>");
+            $(document.body).append(drawingArea);
+            paper = wwp.initializeDrawingArea(drawingArea[0]);
+        });
+        
         afterEach(function() {
-            drawingDiv.remove();
+            drawingArea.remove();
         });
 
 		function svgPathFor(element) {
@@ -57,52 +64,27 @@
 			else throw new Error("Unknown Raphael type");
 		}
         
-        it("should be initialized in predefined div", function() {
-            drawingDiv = $("<div></div>");            
-            $(document.body).append(drawingDiv);
-            
-            wwp.initializeDrawingArea(drawingDiv[0]);
-            var tagName = $(drawingDiv).children()[0].tagName.toLowerCase();
+        function drawingElements(paper){
+            var result = [];
+            paper.forEach(function(element){
+              result.push(element);
+            });
+            return result;
+        }
 
-            if(Raphael.type === "SVG") {
-                expect(tagName).to.equal("svg");        
-            }
-            else if(Raphael.type === "VML") {
-                expect(tagName).to.equal("div");  
-            } else {
-                expect().fail("Browser does not support Raphael");
-            }
-             
-        });
-
-        
         it("should have the same dimensions as its enclosing div", function(){        
-            drawingDiv = $("<div style='height:200px; width: 400px;'></div>");            
-            $(document.body).append(drawingDiv);
-
-            var paper = wwp.initializeDrawingArea(drawingDiv[0]);
             expect(paper.height).to.equal(200);
             expect(paper.width).to.equal(400);
         });
         
         it("should draw a line", function(){
-            drawingDiv = $("<div style='height:200px; width: 400px;'></div>");
-            $(document.body).append(drawingDiv);
-
-            var paper = wwp.initializeDrawingArea(drawingDiv[0]);
             wwp.drawLine(20,30,30,300);
-            
-            var elements = [];
-            paper.forEach(function(element){
-              elements.push(element);
-            });
-            
+            var elements = drawingElements(paper);
             expect(elements.length).to.equal(1);
-            
-            var element = elements[0];
-			var path = pathFor(element);
-            expect(path).to.equal("M20,30L30,300");
+			expect(pathFor(elements[0])).to.equal("M20,30L30,300");
         });
+        
+        
         
         
     });
