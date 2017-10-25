@@ -16,15 +16,14 @@
             drawingArea.remove();
         });
 
-        // no longer needed?
 		function svgPathFor(element) {
 			var path = element.node.attributes.d.value;
 			if (path.indexOf(",") !== -1) {
-				// We're in Firefox, Safari, Chrome, which uses format: M20,30L30,300
+				// We're in Firefox, Safari, Chrome, which uses format "M20,30L30,300"
 				return path;
 			}
 			else {
-				// We're in IE9, which uses format: M 20 30 L 30 300
+				// We're in IE9, which uses format "M 20 30 L 30 300"
 				var ie9PathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
 				var ie9 = path.match(ie9PathRegex);
 
@@ -32,10 +31,9 @@
 			}
 			return path;
 		}
-        
-        // no longer needed?
+
 		function vmlPathFor(element) {
-			// We're in IE 8, which uses format: m432000,648000 l648000,67456800 e
+			// We're in IE 8, which uses format "m432000,648000 l648000,67456800 e"
 			var VML_MAGIC_NUMBER = 21600;
 
 			var path = element.node.path.value;
@@ -48,18 +46,21 @@
 			var endX = ie8[3] / VML_MAGIC_NUMBER;
 			var endY = ie8[4] / VML_MAGIC_NUMBER;
 
-			return "M" + startX + "," + startY + "L" + endX + "," + endY;
+			return {
+				x: startX,
+				y: startY,
+				x2: endX,
+				y2: endY
+			};
 		}
     
         function pathFor(element) {
-			
-            var box = element.getBBox();
-            return "M" + box.x + "," + box.y + "L" + box.x2 + "," + box.y2;
-            
-            // not needed because of elements BBox (bounding box)
-            //if (Raphael.vml) return vmlPathFor(element);
-			//else if (Raphael.svg) return svgPathFor(element);
-			//else throw new Error("Unknown Raphael type");
+//			var box = element.getBBox();
+//			return "M" + box.x + "," + box.y + "L" + box.x2 + "," + box.y2;
+
+			if (Raphael.vml) return vmlPathFor(element);
+			else if (Raphael.svg) return svgPathFor(element);
+			else throw new Error("Unknown Raphael type");
 		}
         
         function drawingElements(paper){
@@ -96,10 +97,8 @@
             $(document.body).append(drawingArea);
             paper = wwp.initializeDrawingArea(drawingArea[0]);
             
-            wwp.drawLine(20,30,30,300);
-            var elements = drawingElements(paper);
-            expect(elements.length).to.equal(1);
-			expect(pathFor(elements[0])).to.equal("M20,30L30,300");
+			wwp.drawLine(20, 30, 30, 300);
+			expect(paperPaths(paper)).to.eql([ [20, 30, 30, 300] ]);
         });
         
  /*   WILL RETURN TO THIS    
@@ -129,9 +128,10 @@
         
         
 		function paperPaths(paper) {
+			var box;
 			var result = [];
 			for (var i = 0; i < drawingElements(paper).length; i++) {
-				var box = drawingElements(paper)[i].getBBox();
+				box = pathFor(drawingElements(paper)[i]);
 				result.push([ box.x, box.y, box.x2, box.y2 ]);
 			}
 			return result;
@@ -145,9 +145,9 @@
 
 			clickMouse(20, 30);
 			clickMouse(50, 60);
-			//clickMouse(40, 20);
+			clickMouse(40, 20);
 
-			expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60]]);//, [50, 60, 40, 20] ]);
+			expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60], [50, 60, 40, 20] ]);
         });
         
         
