@@ -8,17 +8,24 @@ wwp = {};
     var paper;
     
     wwp.initializeDrawingArea = function(drawingAreaElement){
+        var startX = null;
+        var startY = null;
+        
         paper = new Raphael(drawingAreaElement);
         
         var drawingArea = $(drawingAreaElement);
         
         drawingArea.click(function(event){
-            var topLeft = drawingArea.offset();
-            //var topBorder = parseInt(drawingArea.css("border-top-width"), 10);
-            //var leftBorder = parseInt(drawingArea.css("border-left-width"), 10);
+            var pageOffset = drawingArea.offset();
+            var endX = event.pageX - pageOffset.left;
+            var endY = event.pageY - pageOffset.top;
             
-            wwp.drawLine(0, 0, event.pageX - topLeft.left, event.pageY - topLeft.top);
+            if(endX !== null) wwp.drawLine(startX, startY, endX, endY);
+            
+            startX = endX;
+            startY = endY;
         });
+        
         /*
         var prevX = null;
         var prevY = null;
