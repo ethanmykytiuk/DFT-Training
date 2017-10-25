@@ -13,14 +13,13 @@ wwp = {};
         
         paper = new Raphael(drawingAreaElement);
         
-        var drawingArea = $(drawingAreaElement);
-        
+        var drawingArea = $(drawingAreaElement);      
         drawingArea.click(function(event){
             var pageOffset = drawingArea.offset();
             var endX = event.pageX - pageOffset.left;
             var endY = event.pageY - pageOffset.top;
             
-            if(endX !== null) wwp.drawLine(startX, startY, endX, endY);
+            if(startX !== null) wwp.drawLine(startX, startY, endX, endY);
             
             startX = endX;
             startY = endY;

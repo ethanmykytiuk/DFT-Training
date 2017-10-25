@@ -70,20 +70,17 @@
             return result;
         }
         
-        function clickMouse(x, y){
-            var eventData = new jQuery.Event();
-            eventData.pageX = x;
-            eventData.pageY = y;
-            eventData.type = "click";
-            drawingArea.trigger(eventData);
-        }
-        
-        function relativePosition(drawingArea, pageX, pageY){
-            var topLeftDrawingArea = drawingArea.offset();
-            var x = pageX - topLeftDrawingArea.left;
-            var y = pageY - topLeftDrawingArea.top;
-            return {x: x, y: y};
-        }
+		function clickMouse(relativeX, relativeY) {
+			var topLeftOfDrawingArea = drawingArea.offset();
+			var pageX = relativeX + topLeftOfDrawingArea.left;
+			var pageY = relativeY + topLeftOfDrawingArea.top;
+
+			var eventData = new jQuery.Event();
+			eventData.pageX = pageX;
+			eventData.pageY = pageY;
+			eventData.type = "click";
+			drawingArea.trigger(eventData);
+		}
 
         it("should have the same dimensions as its enclosing div", function(){        
             drawingArea = $("<div style='height:200px; width: 400px;'></div>");
@@ -130,20 +127,27 @@
         */
         //TODO: test that em is converted to px
         
+        
+		function paperPaths(paper) {
+			var result = [];
+			for (var i = 0; i < drawingElements(paper).length; i++) {
+				var box = drawingElements(paper)[i].getBBox();
+				result.push([ box.x, box.y, box.x2, box.y2 ]);
+			}
+			return result;
+		}
+
+        
         it("respond to the mouse", function(){
             drawingArea = $("<div style='height:200px; width: 400px;'></div>");
             $(document.body).append(drawingArea);
             paper = wwp.initializeDrawingArea(drawingArea[0]);
 
-            clickMouse(20,30);
-            clickMouse(50,60);
-            
-            var start = relativePosition(drawingArea, 20,30);
-            var end = relativePosition(drawingArea, 50,60);
-            
-            var elements = drawingElements(paper);
-            expect(elements.length).to.equal(1);
-			expect(pathFor(elements[0])).to.equal("M" + start.x + "," + start.y + "L" + end.x + "," + end.y);
+			clickMouse(20, 30);
+			clickMouse(50, 60);
+			//clickMouse(40, 20);
+
+			expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60]]);//, [50, 60, 40, 20] ]);
         });
         
         
