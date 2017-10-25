@@ -14,8 +14,8 @@ wwp = {};
         
         drawingArea.click(function(event){
             var topLeft = drawingArea.offset();
-            var topBorder = parseInt(drawingArea.css("border-top-width"), 10);
-            var leftBorder = parseInt(drawingArea.css("border-left-width"), 10);
+            //var topBorder = parseInt(drawingArea.css("border-top-width"), 10);
+            //var leftBorder = parseInt(drawingArea.css("border-left-width"), 10);
             
             wwp.drawLine(0, 0, event.pageX - topLeft.left, event.pageY - topLeft.top);
         });
