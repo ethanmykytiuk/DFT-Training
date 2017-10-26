@@ -16,6 +16,10 @@ wwp = {};
         };
     }
     
+    function drawLine(startX, startY, endX, endY) {
+        paper.path("M" + startX + "," + startY + "L" + endX + "," + endY);
+    }
+    
     function handleDragEvents(drawingAreaElement){
         var start = null;
         var drawingArea = $(drawingAreaElement);      
@@ -29,24 +33,19 @@ wwp = {};
             
             var end = relativeOffset(drawingArea, event.pageX, event.pageY);
             
-            if(start !== null) wwp.drawLine(start.x, start.y, end.x, end.y);
+            if(start !== null) drawLine(start.x, start.y, end.x, end.y);
             start = end;
         }); 
         
         $(document).mouseup(function(event) {
             start = null;
         });
- 
     }
     
     wwp.initializeDrawingArea = function(drawingAreaElement){
         handleDragEvents(drawingAreaElement);
         paper = new Raphael(drawingAreaElement);
         return paper;
-    };
-    
-    wwp.drawLine = function(startX, startY, endX, endY) {
-			paper.path("M" + startX + "," + startY + "L" + endX + "," + endY);
     };
 	
 }());
