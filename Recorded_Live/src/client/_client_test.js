@@ -17,32 +17,25 @@
         });
 
 		function svgPathFor(element) {
+            var pathRegex;
 			var path = element.node.attributes.d.value;
+            
 			if (path.indexOf(",") !== -1) {
 				// We're in Firefox, Safari, Chrome, which uses format "M20,30L30,300"
-                var modernPathRegex = /M(\d+),(\d+)L(\d+),(\d+)/;
-				var modern = path.match(modernPathRegex);
-
-                return {
-                    x: modern[1],
-                    y: modern[2],
-                    x2: modern[3],
-                    y2: modern[4]
-                };
+                pathRegex = /M(\d+),(\d+)L(\d+),(\d+)/;
 			}
 			else {
 				// We're in IE9, which uses format "M 20 30 L 30 300"
-				var ie9PathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
-				var ie9 = path.match(ie9PathRegex);
-
-                return {
-                    x: ie9[1],
-                    y: ie9[2],
-                    x2: ie9[3],
-                    y2: ie9[4]
-                };
+				var pathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
 			}
-			return path;
+            var pathComponents = path.match(pathRegex);
+            
+            return {
+                x: pathComponents[1],
+                y: pathComponents[2],
+                x2: pathComponents[3],
+                y2: pathComponents[4]
+            };
 		}
 
 		function vmlPathFor(element) {
@@ -95,6 +88,16 @@
 			eventData.type = "click";
 			drawingArea.trigger(eventData);
 		}
+        
+        function paperPaths(paper) {
+			var box;
+			var result = [];
+			for (var i = 0; i < drawingElements(paper).length; i++) {
+				box = pathFor(drawingElements(paper)[i]);
+				result.push([ box.x, box.y, box.x2, box.y2 ]);
+			}
+			return result;
+		}
 
         it("should have the same dimensions as its enclosing div", function(){        
             drawingArea = $("<div style='height:200px; width: 400px;'></div>");
@@ -138,18 +141,6 @@
 		});
         */
         //TODO: test that em is converted to px
-        
-        
-		function paperPaths(paper) {
-			var box;
-			var result = [];
-			for (var i = 0; i < drawingElements(paper).length; i++) {
-				box = pathFor(drawingElements(paper)[i]);
-				result.push([ box.x, box.y, box.x2, box.y2 ]);
-			}
-			return result;
-		}
-
         
         it("respond to the mouse", function(){
             drawingArea = $("<div style='height:200px; width: 400px;'></div>");
