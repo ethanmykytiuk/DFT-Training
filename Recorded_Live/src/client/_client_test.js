@@ -26,7 +26,7 @@
 			}
 			else {
 				// We're in IE9, which uses format "M 20 30 L 30 300"
-				var pathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
+				pathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
 			}
             var pathComponents = path.match(pathRegex);
             
@@ -76,18 +76,6 @@
             });
             return result;
         }
-        
-		function clickMouse(relativeX, relativeY) {
-			var topLeftOfDrawingArea = drawingArea.offset();
-			var pageX = relativeX + topLeftOfDrawingArea.left;
-			var pageY = relativeY + topLeftOfDrawingArea.top;
-
-			var eventData = new jQuery.Event();
-			eventData.pageX = pageX;
-			eventData.pageY = pageY;
-			eventData.type = "click";
-			drawingArea.trigger(eventData);
-		}
         
 		function clickMouse(relativeX, relativeY) {
 			var topLeftOfDrawingArea = drawingArea.offset();

@@ -7,35 +7,37 @@ wwp = {};
        
     var paper;
     
-    wwp.initializeDrawingArea = function(drawingAreaElement){
-        var startX = null;
-        var startY = null;
-        var isDragging = false;
+    function relativeOffset(drawingArea, absoluteX, absoluteY){
+        var pageOffset = drawingArea.offset();
         
+        return {
+            x:  absoluteX - pageOffset.left,
+            y: absoluteY - pageOffset.top
+        };
+    }
+    
+    wwp.initializeDrawingArea = function(drawingAreaElement){
+        var start = null;
+        var isDragging = false;
+        var drawingArea = $(drawingAreaElement);      
+
         paper = new Raphael(drawingAreaElement);
         
         $(document).mousedown(function(event) {
             isDragging = true;
-            var pageOffset = drawingArea.offset();
-
-            startX = event.pageX - pageOffset.left;
-            startY = event.pageY - pageOffset.top;
+            start = relativeOffset(drawingArea, event.pageX, event.pageY);
         });
         
         $(document).mouseup(function(event) {
-				isDragging = false;
+            isDragging = false;
         });
         
-        var drawingArea = $(drawingAreaElement);      
         drawingArea.mousemove(function(event){
             var pageOffset = drawingArea.offset();
-            var endX = event.pageX - pageOffset.left;
-            var endY = event.pageY - pageOffset.top;
+            var end = relativeOffset(drawingArea, event.pageX, event.pageY);
             
-            if(startX !== null && isDragging) wwp.drawLine(startX, startY, endX, endY);
-            
-            startX = endX;
-            startY = endY;
+            if(start !== null && isDragging) wwp.drawLine(start.x, start.y, end.x, end.y);
+            start = end;
         });
         
         /*
