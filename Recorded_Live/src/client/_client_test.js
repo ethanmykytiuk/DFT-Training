@@ -77,41 +77,39 @@
             
 			return result;
 		}
+        
+        function pageOffset(drawingArea, relativeX, relativeY){
+            var topLeftOfDrawingArea = drawingArea.offset();            
+            return {
+              x: relativeX + topLeftOfDrawingArea.left,
+              y: relativeY + topLeftOfDrawingArea.top
+            };
+        }
+        
+        function createEvent(page, eventType){
+            var eventData = new jQuery.Event();
+			eventData.pageX = page.x;
+			eventData.pageY = page.y;
+			eventData.type = eventType;
+            return eventData;
+        }
 
         function mouseDown(relativeX, relativeY) {
-			var topLeftOfDrawingArea = drawingArea.offset();
-			var pageX = relativeX + topLeftOfDrawingArea.left;
-			var pageY = relativeY + topLeftOfDrawingArea.top;
-
-			var eventData = new jQuery.Event();
-			eventData.pageX = pageX;
-			eventData.pageY = pageY;
-			eventData.type = "mousedown";
+            var page = pageOffset(drawingArea, relativeX, relativeY);
+            var eventData = createEvent(page, "mousedown");
 			drawingArea.trigger(eventData);
 		}
 
 		function mouseMove(relativeX, relativeY) {
-			var topLeftOfDrawingArea = drawingArea.offset();
-			var pageX = relativeX + topLeftOfDrawingArea.left;
-			var pageY = relativeY + topLeftOfDrawingArea.top;
-
-			var eventData = new jQuery.Event();
-			eventData.pageX = pageX;
-			eventData.pageY = pageY;
-			eventData.type = "mousemove";
+            var page = pageOffset(drawingArea, relativeX, relativeY);
+            var eventData = createEvent(page, "mousemove");
 			drawingArea.trigger(eventData);
 		}
 
-		function mouseUp(relativeX, relativeY) {
-			var topLeftOfDrawingArea = drawingArea.offset();
-			var pageX = relativeX + topLeftOfDrawingArea.left;
-			var pageY = relativeY + topLeftOfDrawingArea.top;
-
-			var eventData = new jQuery.Event();
-			eventData.pageX = pageX;
-			eventData.pageY = pageY;
-			eventData.type = "mouseup";
-			drawingArea.trigger(eventData);
+		function mouseUp(relativeX, relativeY) {            
+            var page = pageOffset(drawingArea, relativeX, relativeY);
+            var eventData = createEvent(page, "mouseup");
+			drawingArea.trigger(eventData);            
 		}
 
         it("should have the same dimensions as its enclosing div", function(){        

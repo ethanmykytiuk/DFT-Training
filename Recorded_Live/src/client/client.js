@@ -7,12 +7,12 @@ wwp = {};
        
     var paper;
     
-    function relativeOffset(drawingArea, absoluteX, absoluteY){
+    function relativeOffset(drawingArea, pageX, pageY){
         var pageOffset = drawingArea.offset();
         
         return {
-            x:  absoluteX - pageOffset.left,
-            y: absoluteY - pageOffset.top
+            x: pageX - pageOffset.left,
+            y: pageY - pageOffset.top
         };
     }
     
