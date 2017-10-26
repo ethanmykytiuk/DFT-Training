@@ -30,12 +30,12 @@
 			}
             var pathComponents = path.match(pathRegex);
             
-            return {
-                x: pathComponents[1],
-                y: pathComponents[2],
-                x2: pathComponents[3],
-                y2: pathComponents[4]
-            };
+            return [
+                pathComponents[1],
+                pathComponents[2],
+                pathComponents[3],
+                pathComponents[4]
+            ];
 		}
 
 		function vmlPathFor(element) {
@@ -52,12 +52,12 @@
 			var endX = ie8[3] / VML_MAGIC_NUMBER;
 			var endY = ie8[4] / VML_MAGIC_NUMBER;
 
-			return {
-				x: startX,
-				y: startY,
-				x2: endX,
-				y2: endY
-			};
+			return [
+				startX,
+				startY,
+				endX,
+				endY
+			];
 		}
     
         function pathFor(element) {
@@ -68,28 +68,17 @@
 			else if (Raphael.svg) return svgPathFor(element);
 			else throw new Error("Unknown Raphael type");
 		}
-        
-        function drawingElements(paper){
-            var result = [];
+                
+        function paperPaths(paper) {
+			var result = [];            
             paper.forEach(function(element){
-              result.push(element);
+                result.push(pathFor(element));
             });
-            return result;
-        }
-        
-		function clickMouse(relativeX, relativeY) {
-			var topLeftOfDrawingArea = drawingArea.offset();
-			var pageX = relativeX + topLeftOfDrawingArea.left;
-			var pageY = relativeY + topLeftOfDrawingArea.top;
-
-			var eventData = new jQuery.Event();
-			eventData.pageX = pageX;
-			eventData.pageY = pageY;
-			eventData.type = "click";
-			drawingArea.trigger(eventData);
+            
+			return result;
 		}
 
-		function mouseDown(relativeX, relativeY) {
+        function mouseDown(relativeX, relativeY) {
 			var topLeftOfDrawingArea = drawingArea.offset();
 			var pageX = relativeX + topLeftOfDrawingArea.left;
 			var pageY = relativeY + topLeftOfDrawingArea.top;
@@ -123,16 +112,6 @@
 			eventData.pageY = pageY;
 			eventData.type = "mouseup";
 			drawingArea.trigger(eventData);
-		}
-        
-        function paperPaths(paper) {
-			var box;
-			var result = [];
-			for (var i = 0; i < drawingElements(paper).length; i++) {
-				box = pathFor(drawingElements(paper)[i]);
-				result.push([ box.x, box.y, box.x2, box.y2 ]);
-			}
-			return result;
 		}
 
         it("should have the same dimensions as its enclosing div", function(){        
