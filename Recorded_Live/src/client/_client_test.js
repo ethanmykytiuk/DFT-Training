@@ -20,14 +20,27 @@
 			var path = element.node.attributes.d.value;
 			if (path.indexOf(",") !== -1) {
 				// We're in Firefox, Safari, Chrome, which uses format "M20,30L30,300"
-				return path;
+                var modernPathRegex = /M(\d+),(\d+)L(\d+),(\d+)/;
+				var modern = path.match(modernPathRegex);
+
+                return {
+                    x: modern[1],
+                    y: modern[2],
+                    x2: modern[3],
+                    y2: modern[4]
+                };
 			}
 			else {
 				// We're in IE9, which uses format "M 20 30 L 30 300"
 				var ie9PathRegex = /M (\d+) (\d+) L (\d+) (\d+)/;
 				var ie9 = path.match(ie9PathRegex);
 
-				return "M" + ie9[1] + "," + ie9[2] + "L" + ie9[3] + "," + ie9[4];
+                return {
+                    x: ie9[1],
+                    y: ie9[2],
+                    x2: ie9[3],
+                    y2: ie9[4]
+                };
 			}
 			return path;
 		}
