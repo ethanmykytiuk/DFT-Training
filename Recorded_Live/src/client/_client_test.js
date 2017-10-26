@@ -193,6 +193,43 @@
             expect(paperPaths(paper)).to.eql([]);
         });
         
+        it("does not start drawing if drag is started outside the drawing area", function(){
+            drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
+			$(document.body).append(drawingArea);
+			paper = wwp.initializeDrawingArea(drawingArea[0]);
+
+			mouseDown(601, 150);
+            mouseMove(50,60);
+            
+            mouseDown(-1, 150);
+            mouseMove(50 ,60);  
+            
+            mouseDown(120, 301);
+            mouseMove(50 ,60);
+            
+            mouseDown(-1, 301);
+            mouseMove(50,60);
+            
+            expect(paperPaths(paper)).to.eql([]);
+        });
+        
+        it("does start drawing if drag is started exactly at edge of the drawing area", function(){
+            drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
+			$(document.body).append(drawingArea);
+			paper = wwp.initializeDrawingArea(drawingArea[0]);
+            
+            mouseDown(600, 300);
+            mouseMove(50, 60);
+            mouseUp(50, 60);
+            
+            mouseDown(0, 0);
+            mouseMove(50, 60); 
+            mouseUp(50, 60); 
+            
+            expect(paperPaths(paper)).to.eql([ [600, 300, 50, 60], [0, 0, 50, 60] ]);
+
+        });
+        
  /*   WILL RETURN TO THIS    
 		it("considers border when calculating mouse target", function() {
 			drawingArea = $("<div style='height: 200px; width: 400px; border-width: 13px'></div>");
