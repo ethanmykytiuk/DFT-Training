@@ -86,30 +86,25 @@
             };
         }
         
-        function createEvent(page, eventType){
+        function sendMouseEvent(event, relativeX, relativeY ){
+            var page = pageOffset(drawingArea, relativeX, relativeY);
             var eventData = new jQuery.Event();
 			eventData.pageX = page.x;
 			eventData.pageY = page.y;
-			eventData.type = eventType;
-            return eventData;
+			eventData.type = event;
+            drawingArea.trigger(eventData);
         }
 
         function mouseDown(relativeX, relativeY) {
-            var page = pageOffset(drawingArea, relativeX, relativeY);
-            var eventData = createEvent(page, "mousedown");
-			drawingArea.trigger(eventData);
+            sendMouseEvent("mousedown", relativeX, relativeY);
 		}
 
 		function mouseMove(relativeX, relativeY) {
-            var page = pageOffset(drawingArea, relativeX, relativeY);
-            var eventData = createEvent(page, "mousemove");
-			drawingArea.trigger(eventData);
+            sendMouseEvent("mousemove", relativeX, relativeY);
 		}
 
 		function mouseUp(relativeX, relativeY) {            
-            var page = pageOffset(drawingArea, relativeX, relativeY);
-            var eventData = createEvent(page, "mouseup");
-			drawingArea.trigger(eventData);            
+            sendMouseEvent("mouseup", relativeX, relativeY);
 		}
 
         it("should have the same dimensions as its enclosing div", function(){        
