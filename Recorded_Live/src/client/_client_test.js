@@ -69,7 +69,7 @@
 			else throw new Error("Unknown Raphael type");
 		}
                 
-        function paperPaths(paper) {
+        function lineSegments() {
 			var result = [];            
             paper.forEach(function(element){
                 result.push(pathFor(element));
@@ -129,7 +129,7 @@
                 mouseDown(20, 30);
                 mouseMove(50, 60);
 
-                expect(paperPaths(paper)).to.eql([ 
+                expect(lineSegments()).to.eql([ 
                     [20, 30, 50, 60] 
                 ]);
             });
@@ -138,14 +138,14 @@
                 mouseDown(20, 30);
                 mouseUp(50, 60);
 
-                expect(paperPaths(paper)).to.eql([]);
+                expect(lineSegments()).to.eql([]);
             });
 
             it("does not draw line segments when mouse is not down", function() {
                 mouseMove(20, 30);
                 mouseMove(50, 60);
 
-                expect(paperPaths(paper)).to.eql([]);
+                expect(lineSegments()).to.eql([]);
             });
 
             it("stops drawing line segments when mouse is up", function(){
@@ -154,7 +154,7 @@
                 mouseUp(50, 60);
                 mouseMove(10, 15);
 
-                expect(paperPaths(paper)).to.eql([ 
+                expect(lineSegments()).to.eql([ 
                     [20, 30, 50, 60] 
                 ]);
            });
@@ -165,7 +165,7 @@
                 mouseMove(40, 20);
                 mouseMove(10, 15);
 
-                expect(paperPaths(paper)).to.eql([ 
+                expect(lineSegments()).to.eql([ 
                     [20, 30, 50, 60], 
                     [50, 60, 40, 20], 
                     [40, 20, 10, 15] 
@@ -183,7 +183,7 @@
                 mouseMove(10, 15);
                 mouseUp(10, 15);
 
-                expect(paperPaths(paper)).to.eql([
+                expect(lineSegments()).to.eql([
                     [20, 30, 50, 60],
                     [30, 25, 10, 15]
                 ]);
@@ -193,7 +193,7 @@
                 mouseDown(20, 30);
                 mouseUp(50,60);
 
-                expect(paperPaths(paper)).to.eql([]);
+                expect(lineSegments()).to.eql([]);
             });
 
             if("stops drawing when mouse leaves drawing area", function(){
@@ -203,7 +203,7 @@
                 mouseMove(90, 40);
                 mouseUp(700, 70);
 
-                expect(paperPaths(paper)).to.eql([
+                expect(lineSegments()).to.eql([
                     [20, 30, 50, 60]
                 ]);
 
@@ -226,7 +226,7 @@
                 mouseMove(50,60);
                 mouseUp(50,60);
 
-                expect(paperPaths(paper)).to.eql([]);
+                expect(lineSegments()).to.eql([]);
             });
 
             it("does start drawing if drag is started exactly at edge of the drawing area", function(){
@@ -238,7 +238,7 @@
                 mouseMove(50, 60); 
                 mouseUp(50, 60); 
 
-                expect(paperPaths(paper)).to.eql([
+                expect(lineSegments()).to.eql([
                     [600, 300, 50, 60],
                     [0, 0, 50, 60]
                 ]);
