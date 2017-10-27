@@ -118,13 +118,13 @@
         
         describe("Line Drawing", function(){
             
-            
-
-        
-            it("draws a line in response to mouse drag", function(){
+            beforeEach(function(){
                 drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
                 $(document.body).append(drawingArea);
                 paper = wwp.initializeDrawingArea(drawingArea[0]);
+            });
+
+            it("draws a line in response to mouse drag", function(){
 
                 mouseDown(20, 30);
                 mouseMove(50, 60);
@@ -133,9 +133,6 @@
             });
 
             it("does not draw line segment when mouse button is released", function() {
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
                 mouseDown(20, 30);
                 mouseUp(50, 60);
 
@@ -143,10 +140,6 @@
             });
 
             it("does not draw line segments when mouse is not down", function() {
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseMove(20, 30);
                 mouseMove(50, 60);
 
@@ -154,10 +147,6 @@
             });
 
             it("stops drawing line segments when mouse is up", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(20, 30);
                 mouseMove(50, 60);
                 mouseUp(50, 60);
@@ -167,10 +156,6 @@
            });
 
             it("draws multiple line segments when mouse is dragged multiple places", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(20, 30);
                 mouseMove(50, 60);
                 mouseMove(40, 20);
@@ -180,10 +165,6 @@
            });
 
             it("draws multiple line segments when there are multiple drags", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(20, 30);
                 mouseMove(50, 60);
                 mouseUp(50,60);
@@ -198,10 +179,6 @@
            });
 
             it("does not draw line segment in response to mouseup event", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(20, 30);
                 mouseUp(50,60);
 
@@ -209,10 +186,6 @@
             });
 
             if("stops drawing when mouse leaves drawing area", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(20, 30);
                 mouseMove(50, 60);
                 mouseMove(700, 70);
@@ -224,10 +197,6 @@
             });
 
             it("does not start drawing if drag is started outside the drawing area", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(601, 150);
                 mouseMove(50,60);
 
@@ -244,10 +213,6 @@
             });
 
             it("does start drawing if drag is started exactly at edge of the drawing area", function(){
-                drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
-                $(document.body).append(drawingArea);
-                paper = wwp.initializeDrawingArea(drawingArea[0]);
-
                 mouseDown(600, 300);
                 mouseMove(50, 60);
                 mouseUp(50, 60);
