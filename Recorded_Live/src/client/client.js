@@ -39,7 +39,7 @@ wwp = {};
             }
         });
                        
-        drawingArea.mousemove(function(event){
+        $(document).mousemove(function(event){
             if(start === null) return;
             
             var end = relativeOffset(drawingArea, event.pageX, event.pageY);

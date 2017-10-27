@@ -86,21 +86,22 @@
             };
         }
         
-        function sendMouseEvent(event, relativeX, relativeY ){
+        function sendMouseEvent(event, relativeX, relativeY, optionalElement){
+            var jqElement = optionalElement || drawingArea;
             var page = pageOffset(drawingArea, relativeX, relativeY);
             var eventData = new jQuery.Event();
 			eventData.pageX = page.x;
 			eventData.pageY = page.y;
 			eventData.type = event;
-            drawingArea.trigger(eventData);
+            jqElement.trigger(eventData);
         }
 
         function mouseDown(relativeX, relativeY) {
             sendMouseEvent("mousedown", relativeX, relativeY);
 		}
 
-		function mouseMove(relativeX, relativeY) {
-            sendMouseEvent("mousemove", relativeX, relativeY);
+		function mouseMove(relativeX, relativeY, optionalElement) {
+            sendMouseEvent("mousemove", relativeX, relativeY, optionalElement);
 		}
 
 		function mouseUp(relativeX, relativeY) {            
@@ -199,9 +200,9 @@
             if("stops drawing when mouse leaves drawing area", function(){
                 mouseDown(20, 30);
                 mouseMove(50, 60);
-                mouseMove(700, 70);
+                mouseMove(700, 70, $(document));
                 mouseMove(90, 40);
-                mouseUp(700, 70);
+                mouseUp(90, 40);
 
                 expect(lineSegments()).to.eql([
                     [20, 30, 50, 60]
