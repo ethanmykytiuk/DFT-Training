@@ -116,7 +116,7 @@
             expect(paper.width).to.equal(400);
         });
         
-        describe("Line Drawing", function(){
+        describe("line drawing", function(){
             
             beforeEach(function(){
                 drawingArea = $("<div style='height: 300px; width: 600px'>hi</div>");
@@ -129,7 +129,9 @@
                 mouseDown(20, 30);
                 mouseMove(50, 60);
 
-                expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60] ]);
+                expect(paperPaths(paper)).to.eql([ 
+                    [20, 30, 50, 60] 
+                ]);
             });
 
             it("does not draw line segment when mouse button is released", function() {
@@ -152,7 +154,9 @@
                 mouseUp(50, 60);
                 mouseMove(10, 15);
 
-                expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60] ]);
+                expect(paperPaths(paper)).to.eql([ 
+                    [20, 30, 50, 60] 
+                ]);
            });
 
             it("draws multiple line segments when mouse is dragged multiple places", function(){
@@ -161,7 +165,11 @@
                 mouseMove(40, 20);
                 mouseMove(10, 15);
 
-                expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60], [50, 60, 40, 20], [40, 20, 10, 15] ]);
+                expect(paperPaths(paper)).to.eql([ 
+                    [20, 30, 50, 60], 
+                    [50, 60, 40, 20], 
+                    [40, 20, 10, 15] 
+                ]);
            });
 
             it("draws multiple line segments when there are multiple drags", function(){
@@ -175,10 +183,13 @@
                 mouseMove(10, 15);
                 mouseUp(10, 15);
 
-                expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60], [30, 25, 10, 15] ]);
+                expect(paperPaths(paper)).to.eql([
+                    [20, 30, 50, 60],
+                    [30, 25, 10, 15]
+                ]);
            });
 
-            it("does not draw line segment in response to mouseup event", function(){
+            it("does not draw line segment when mouse button is released", function(){
                 mouseDown(20, 30);
                 mouseUp(50,60);
 
@@ -192,22 +203,28 @@
                 mouseMove(90, 40);
                 mouseUp(700, 70);
 
-                expect(paperPaths(paper)).to.eql([ [20, 30, 50, 60] ]);
+                expect(paperPaths(paper)).to.eql([
+                    [20, 30, 50, 60]
+                ]);
 
             });
 
             it("does not start drawing if drag is started outside the drawing area", function(){
                 mouseDown(601, 150);
                 mouseMove(50,60);
+                mouseUp(50,60);
 
                 mouseDown(-1, 150);
                 mouseMove(50 ,60);  
+                mouseUp(50,60);
 
                 mouseDown(120, 301);
                 mouseMove(50 ,60);
+                mouseUp(50,60);
 
                 mouseDown(-1, 301);
                 mouseMove(50,60);
+                mouseUp(50,60);
 
                 expect(paperPaths(paper)).to.eql([]);
             });
@@ -221,8 +238,10 @@
                 mouseMove(50, 60); 
                 mouseUp(50, 60); 
 
-                expect(paperPaths(paper)).to.eql([ [600, 300, 50, 60], [0, 0, 50, 60] ]);
-
+                expect(paperPaths(paper)).to.eql([
+                    [600, 300, 50, 60],
+                    [0, 0, 50, 60]
+                ]);
             });
         });        
         
