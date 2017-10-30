@@ -32,14 +32,14 @@ wwp = {};
         var start = null;
         var drawingArea = $(drawingAreaElement);      
 
-        $(document).mousedown(function(event) {
+        drawingArea.mousedown(function(event) {
             var offset = relativeOffset(drawingArea, event.pageX, event.pageY);
             if(isWithinDrawingArea(offset)){
                 start = offset;
             }
         });
                        
-        $(document).mousemove(function(event){
+        drawingArea.mousemove(function(event){
             if(start === null) return;
             
             var end = relativeOffset(drawingArea, event.pageX, event.pageY);
@@ -52,9 +52,14 @@ wwp = {};
             }
         }); 
         
-        $(document).mouseup(function(event) {
+        drawingArea.mouseup(function(event) {
             start = null;
         });
+        
+        drawingArea.mouseleave(function(event){
+            start = null;
+        });
+        
     }
     
     wwp.initializeDrawingArea = function(drawingAreaElement){

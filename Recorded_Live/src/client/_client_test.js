@@ -14,7 +14,6 @@
     
         afterEach(function() {
             drawingArea.remove();
-            $(document).unbind();
         });
 
 		function svgPathFor(element) {
