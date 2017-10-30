@@ -96,16 +96,20 @@
             jqElement.trigger(eventData);
         }
 
-        function mouseDown(relativeX, relativeY) {
-            sendMouseEvent("mousedown", relativeX, relativeY);
+        function mouseDown(relativeX, relativeY, optionalElement) {
+            sendMouseEvent("mousedown", relativeX, relativeY, optionalElement);
+		}
+        
+        function mouseUp(relativeX, relativeY, optionalElement) {            
+            sendMouseEvent("mouseup", relativeX, relativeY, optionalElement);
 		}
 
 		function mouseMove(relativeX, relativeY, optionalElement) {
             sendMouseEvent("mousemove", relativeX, relativeY, optionalElement);
 		}
 
-		function mouseUp(relativeX, relativeY) {            
-            sendMouseEvent("mouseup", relativeX, relativeY);
+		function mouseLeave(relativeX, relativeY, optionalElement) {            
+            sendMouseEvent("mouseleave", relativeX, relativeY, optionalElement);
 		}
 
         it("should have the same dimensions as its enclosing div", function(){        
@@ -200,6 +204,7 @@
             if("stops drawing when mouse leaves drawing area", function(){
                 mouseDown(20, 30);
                 mouseMove(50, 60);
+                mouseLeave(700,70);
                 mouseMove(700, 70, $(document));
                 mouseMove(90, 40);
                 mouseUp(90, 40);
@@ -211,23 +216,23 @@
             });
 
             it("does not start drawing if drag is started outside the drawing area", function(){
-                mouseDown(601, 150);
-                mouseMove(50,60);
-                mouseUp(50,60);
+				mouseDown(601, 150, $(document));
+				mouseMove(50, 60);
+				mouseUp(50, 60);
 
-                mouseDown(-1, 150);
-                mouseMove(50 ,60);  
-                mouseUp(50,60);
+				mouseDown(-1, 150, $(document));
+				mouseMove(50, 60);
+				mouseUp(50, 60);
 
-                mouseDown(120, 301);
-                mouseMove(50 ,60);
-                mouseUp(50,60);
+				mouseDown(120, 301, $(document));
+				mouseMove(50, 60);
+				mouseUp(50, 60);
 
-                mouseDown(-1, 301);
-                mouseMove(50,60);
-                mouseUp(50,60);
+				mouseDown(-1, 301, $(document));
+				mouseMove(50, 60);
+				mouseUp(50, 60);
 
-                expect(lineSegments()).to.eql([]);
+				expect(lineSegments()).to.eql([]);
             });
 
             it("does start drawing if drag is started exactly at edge of the drawing area", function(){

@@ -43,13 +43,8 @@ wwp = {};
             if(start === null) return;
             
             var end = relativeOffset(drawingArea, event.pageX, event.pageY);
-            
-            if(isWithinDrawingArea(end)){
-                drawLine(start.x, start.y, end.x, end.y);
-                start = end;
-            } else {
-                start = null;
-            }
+            drawLine(start.x, start.y, end.x, end.y);
+            start = end;
         }); 
         
         drawingArea.mouseup(function(event) {
