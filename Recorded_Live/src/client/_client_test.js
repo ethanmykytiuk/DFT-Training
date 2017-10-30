@@ -249,11 +249,15 @@
                     [0, 0, 50, 60]
                 ]);
             });
+            
+            it("does not allow like text to be selected outside drawing area when drag starts within drawing area", function(){
+                drawingArea.mousedown(function(event){
+                    expect(drawingArea.isDefaultPrevented().to.be(true));
+                });
+            });
+            
         });        
         
-    });
-    
-        
-    
+    }); 
     
 }());
