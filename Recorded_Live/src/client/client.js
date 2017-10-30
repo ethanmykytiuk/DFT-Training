@@ -20,23 +20,13 @@ wwp = {};
         paper.path("M" + startX + "," + startY + "L" + endX + "," + endY);
     }
     
-    function isWithinDrawingArea(offset){
-        if(offset.x >= 0 && offset.x <= paper.width &&
-           offset.y >= 0 && offset.y <= paper.height){
-            return true;
-        }
-        return false;
-    }
-    
     function handleDragEvents(drawingAreaElement){
         var start = null;
         var drawingArea = $(drawingAreaElement);      
 
         drawingArea.mousedown(function(event) {
-            var offset = relativeOffset(drawingArea, event.pageX, event.pageY);
-            if(isWithinDrawingArea(offset)){
-                start = offset;
-            }
+            start = relativeOffset(drawingArea, event.pageX, event.pageY);
+            //start = offset;
         });
                        
         drawingArea.mousemove(function(event){
